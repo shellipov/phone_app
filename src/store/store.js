@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 class Store {
   quotes = [];
   renewCounter = 0;
+  error = 0;  
   constructor() {
     makeAutoObservable(this);
   }
@@ -12,6 +13,9 @@ class Store {
   }
   renew() {
     this.renewCounter += 1;
+  }
+  getData(){
+
   }
 }
 

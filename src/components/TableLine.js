@@ -4,7 +4,6 @@ import { Text, View, StyleSheet } from "react-native";
 function TableLine({ el, index }) {
   return (
     <View style={styles.tableHeader} keys={el.ticker}>
-      {/* <Text style={styles.tableCellFont}>{index}</Text> */}
       <Text style={styles.tableCellFont}>{el.ticker}</Text>
       <Text style={styles.tableCellFont}>{el.last}</Text>
       <Text style={styles.tableCellFont}>{el.highestBid}</Text>
@@ -25,5 +24,6 @@ const styles = StyleSheet.create({
   tableCellFont: {
     fontSize: 9,
     flex: 1,
+    margin: 2,
   },
 });
