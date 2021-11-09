@@ -8,7 +8,6 @@ import {
   Animated,
 } from "react-native";
 import TableLine from "../components/TableLine";
-import Api from "../api/api";
 import { fadeIn, fadeOut } from "../utils/fade";
 import store from "../store/store";
 import { observer } from "mobx-react-lite";
@@ -17,18 +16,7 @@ const Quotes = observer(() => {
   const table = useRef(new Animated.Value(0)).current;
 
   async function getData() {
-
-    const data = await Api.getData();
-
-    const tickers = Object.keys(data).map((el) => ({
-      ticker: el,
-      last: data[el].last,
-      highestBid: data[el].highestBid,
-      percentChange: data[el].percentChange,
-    }));
-
-    store.setQuotes(tickers);
-    
+    store.getData();
     fadeIn(table);
     setTimeout(() => {
       fadeOut(table);
@@ -42,7 +30,7 @@ const Quotes = observer(() => {
     return () => ac.abort();
   }, [store.renewCounter]);
 
-  if (store.quotes.length) {
+  if (store.quotes) {
     return (
       <View>
         <View style={styles.tableHeader}>
@@ -51,6 +39,9 @@ const Quotes = observer(() => {
           <Text style={styles.tableHeaderFont}>Highest Bid</Text>
           <Text style={styles.tableHeaderFont}>Percent Change</Text>
         </View>
+
+        {store.error && <Text style={styles.errorCell}>{store.error}</Text>}
+
         <Animated.View style={{ opacity: table }}>
           <ScrollView>
             {store.quotes.map((el, index) => (
@@ -84,11 +75,18 @@ const styles = StyleSheet.create({
   },
   tableHeaderFont: {
     backgroundColor: "green",
-    color: 'white',
+    color: "white",
     fontSize: 12,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 3
+    padding: 3,
+  },
+  errorCell: {
+    width: "100%",
+    color: "red",
+    fontSize: 12,
+    padding: 3,
+    textAlign: "center",
   },
 });
