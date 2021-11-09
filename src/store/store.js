@@ -22,7 +22,6 @@ class Store {
   async getData() {
     const data = await Api.getData();
     if (data.error) {
-      console.log("error");
       this.setError(data.error.toString());
     } else {
       try {
